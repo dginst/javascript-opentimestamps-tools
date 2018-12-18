@@ -11,21 +11,25 @@ const calendarsList = [
 // an empty list is not acceptable here
 const wcalendars = [
     'http://calendar.irsa.it:80'
-    //'https://alice.btc.calendar.opentimestamps.org', 
+    //'https://alice.btc.calendar.opentimestamps.org'
     //'https://bob.btc.calendar.opentimestamps.org',
     //'https://finney.calendar.eternitywall.com'
 ]
 const whitelistedCalendars = new OpenTimestamps.Calendar.UrlWhitelist(wcalendars)
 
 const blockexplorers = {
-    urls: [
-        'https://blockstream.info/testnet/api',
-        'https://testnet.blockexplorer.com/api'
-        //'https://blockstream.info/api',
-        //'https://blockexplorer.com/api'
-    ],
-    chain: 'bitcoinTestnet'
-    //chain: 'bitcoin' //redundant, as this would be the default
+	bitcoin: {
+	  explorers: [
+    	{url: 'https://blockstream.info/api', type: 'blockstream'},
+    	{url: 'https://blockexplorer.com/api', type: 'insight'}
+      ]
+    },
+    bitcoinTestnet: {
+	  explorers: [
+		{url: 'https://blockstream.info/testnet/api', type: 'blockstream'},
+		{url: 'https://testnet.blockexplorer.com/api', type: 'insight'}
+	  ]
+    }
 }
 
 
@@ -257,8 +261,8 @@ $("#btn-verify").click(function(event) {
             outputText += "No proof upgrade available"
         }
         $("#verify-output").val(outputText + "\nWaiting for verification results...")
-        const verifyOptions = { insight: blockexplorers }
-        return OpenTimestamps.verifyTimestamp(detachedStamped.timestamp, verifyOptions)
+        //const options = { bitcoinTestnet: blockexplorers }
+        return OpenTimestamps.verifyTimestamp(detachedStamped.timestamp, blockexplorers)
     }).then( (results)=>{
         if (Object.keys(results).length === 0) {
             if (!detachedStamped.timestamp.isTimestampComplete())
