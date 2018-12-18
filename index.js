@@ -1,15 +1,41 @@
 const OpenTimestamps = window.OpenTimestamps
-const calendarsList = ['http://calendar.irsa.it:80']
-const whitelistedCalendars = new OpenTimestamps.Calendar.UrlWhitelist(calendarsList)
+
+// an empty list would be equivalent to the default calendars
+const calendarsList = [
+    'http://calendar.irsa.it:80'
+    //'https://alice.btc.calendar.opentimestamps.org', 
+    //'https://bob.btc.calendar.opentimestamps.org',
+    //'https://finney.calendar.eternitywall.com'
+]
+
+// an empty list is not acceptable here
+const wcalendars = [
+    'http://calendar.irsa.it:80'
+    //'https://alice.btc.calendar.opentimestamps.org'
+    //'https://bob.btc.calendar.opentimestamps.org',
+    //'https://finney.calendar.eternitywall.com'
+]
+const whitelistedCalendars = new OpenTimestamps.Calendar.UrlWhitelist(wcalendars)
+
 const blockexplorers = {
-    urls: [
-        'https://blockstream.info/testnet/api',
-        'https://testnet.blockexplorer.com/api'
-    ]
+	bitcoin: {
+	  explorers: [
+    	{url: 'https://blockstream.info/api', type: 'blockstream'},
+    	{url: 'https://blockexplorer.com/api', type: 'insight'}
+      ]
+    },
+    bitcoinTestnet: {
+	  explorers: [
+		{url: 'https://blockstream.info/testnet/api', type: 'blockstream'},
+		{url: 'https://testnet.blockexplorer.com/api', type: 'insight'}
+	  ]
+    }
 }
+
 
 $("#btn-hash").click(function(event) {
     event.preventDefault()
+    // begin processing...
     $("#hash-output").val("Waiting for result...")
 
     const filename = $("#hash-filename").val().replace(/^.*[\\\/]/, '')
@@ -52,9 +78,10 @@ $("#btn-hash").click(function(event) {
     return false
 })
 
+// TODO: list calendars the hash as been submitted to
 $("#btn-stamp").click(function(event) {
-    // list calendars the hash as been submitted to
     event.preventDefault()
+    // begin processing...
     $("#stamp-output").val("Waiting for result...")
 
     const hashType = $("#stamp-hashType").val()
@@ -99,6 +126,7 @@ $("#btn-stamp").click(function(event) {
 
 $("#btn-load").click(function(event) {
     event.preventDefault()
+    // begin processing...
     $("#load-output").val("Waiting for result...")
 
     const filename = $("#load-filename").val().replace(/^.*[\\\/]/, '')
@@ -136,6 +164,7 @@ $("#btn-load").click(function(event) {
 })
 
 $("#btn-info").click(function(event) {
+    // begin processing...
     event.preventDefault()
     $("#info-output").val("Waiting for result...")
 
@@ -157,6 +186,7 @@ $("#btn-info").click(function(event) {
 
 $("#btn-upgrade").click(function(event) {
     event.preventDefault()
+    // begin processing...
     $("#upgrade-output").val("Waiting for result...")
 
     const hexots = $("#upgrade-ots").val()
@@ -169,8 +199,8 @@ $("#btn-upgrade").click(function(event) {
     const filename = $("#upgrade-filename").val()
     $("#verify-filename").val(filename)
 
-    const options = { whitelist: whitelistedCalendars }
-    OpenTimestamps.upgrade(detachedStamped, options).then( (changed)=>{
+    const upgradeOptions = { whitelist: whitelistedCalendars }
+    OpenTimestamps.upgrade(detachedStamped, upgradeOptions).then( (changed)=>{
         const timestampBytes = detachedStamped.serializeToBytes()
         const hexots = bytesToHex(timestampBytes)
         if (changed === true) {
@@ -193,10 +223,11 @@ $("#btn-upgrade").click(function(event) {
     return false
 })
 
+// TODO: make upgrade optional
+// multiple attestations?
 $("#btn-verify").click(function(event) {
-    // optional upgrade
-    // multiple attestations?
     event.preventDefault()
+    // begin processing...
     $("#verify-output").val("Waiting for result...")
 
     var hexots = $("#verify-ots").val()
@@ -230,8 +261,8 @@ $("#btn-verify").click(function(event) {
             outputText += "No proof upgrade available"
         }
         $("#verify-output").val(outputText + "\nWaiting for verification results...")
-        const options = { insight: blockexplorers }
-        return OpenTimestamps.verifyTimestamp(detachedStamped.timestamp, options)
+        //const options = { bitcoinTestnet: blockexplorers }
+        return OpenTimestamps.verifyTimestamp(detachedStamped.timestamp, blockexplorers)
     }).then( (results)=>{
         if (Object.keys(results).length === 0) {
             if (!detachedStamped.timestamp.isTimestampComplete())
