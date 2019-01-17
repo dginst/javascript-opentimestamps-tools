@@ -1,3 +1,5 @@
+/* OpenTimestamps functions */
+
 const OpenTimestamps = window.OpenTimestamps
 
 // an empty list would be equivalent to the default calendars
@@ -100,11 +102,13 @@ $("#btn-stamp").click(function(event) {
 
     const hashValue = $("#stamp-hashValue").val()
     const hashData = hexToBytes(hashValue)
-    const detachedOriginal = OpenTimestamps.DetachedTimestampFile.fromHash(op, hashData)
 
     const filename = $("#stamp-filename").val()
 
-    OpenTimestamps.stamp(detachedOriginal).then( () => {
+    const detachedOriginal = OpenTimestamps.DetachedTimestampFile.fromHash(op, hashData)
+	const options = { calendars: calendarsList }
+
+    OpenTimestamps.stamp(detachedOriginal, options).then( () => {
         const byteots = detachedOriginal.serializeToBytes()
         const hexots = bytesToHex(byteots)
         $("#stamp-output").val(hexots)
@@ -202,7 +206,8 @@ $("#btn-upgrade").click(function(event) {
     const filename = $("#upgrade-filename").val()
     $("#verify-filename").val(filename)
 
-    OpenTimestamps.upgrade(detachedStamped).then( (changed)=>{
+    const upgradeOptions = { whitelist: whitelistedCalendars }
+    OpenTimestamps.upgrade(detachedStamped, upgradeOptions).then( (changed)=>{
         const timestampBytes = detachedStamped.serializeToBytes()
         const hexots = bytesToHex(timestampBytes)
         if (changed === true) {
@@ -242,7 +247,8 @@ $("#btn-verify").click(function(event) {
     const filename = $("#verify-filename").val()
     var outputText = ""
 
-    OpenTimestamps.upgrade(detachedStamped).then( (changed)=>{
+    const upgradeOptions = { whitelist: whitelistedCalendars }
+    OpenTimestamps.upgrade(detachedStamped, upgradeOptions).then( (changed)=>{
         const timestampBytes = detachedStamped.serializeToBytes()
         hexots = bytesToHex(timestampBytes)
         if (changed === true) {
