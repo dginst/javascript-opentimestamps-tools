@@ -4,7 +4,7 @@ const OpenTimestamps = window.OpenTimestamps
 const calendarsList = [
     //'http://test-calendar.aniasafe.it:80',  // testnet
     //'http://calendar.aniasafe.it:80',       // mainet
-    'http://calendar.irsa.it:80',           // testnet
+    //'http://calendar.irsa.it:80',           // testnet
     'https://alice.btc.calendar.opentimestamps.org', 
     'https://bob.btc.calendar.opentimestamps.org',
     'https://finney.calendar.eternitywall.com'
@@ -14,7 +14,7 @@ const calendarsList = [
 const wcalendars = [
     //'http://test-calendar.aniasafe.it:80',  // testnet
     //'http://calendar.aniasafe.it:80',       // mainet
-    'http://calendar.irsa.it:80',           // testnet
+    //'http://calendar.irsa.it:80',           // testnet
     'https://alice.btc.calendar.opentimestamps.org',
     'https://bob.btc.calendar.opentimestamps.org',
     'https://finney.calendar.eternitywall.com'
