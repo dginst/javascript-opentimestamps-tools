@@ -2,7 +2,7 @@ const OpenTimestamps = window.OpenTimestamps
 
 // an empty list would be equivalent to the default calendars
 const calendarsList = [
-    'http://calendar.irsa.it:80'
+    'http://test-calendar.aniasafe.it:80'
     //'https://alice.btc.calendar.opentimestamps.org', 
     //'https://bob.btc.calendar.opentimestamps.org',
     //'https://finney.calendar.eternitywall.com'
@@ -10,7 +10,7 @@ const calendarsList = [
 
 // an empty list is not acceptable here
 const wcalendars = [
-    'http://calendar.irsa.it:80'
+    'http://test-calendar.aniasafe.it:80'
     //'https://alice.btc.calendar.opentimestamps.org'
     //'https://bob.btc.calendar.opentimestamps.org',
     //'https://finney.calendar.eternitywall.com'
