@@ -2,18 +2,18 @@ const OpenTimestamps = window.OpenTimestamps
 
 // an empty list would be equivalent to the default calendars
 const calendarsList = [
-    'http://test-calendar.aniasafe.it:80'
-    //'https://alice.btc.calendar.opentimestamps.org', 
-    //'https://bob.btc.calendar.opentimestamps.org',
-    //'https://finney.calendar.eternitywall.com'
+    'http://test-calendar.aniasafe.it:80',
+    'https://alice.btc.calendar.opentimestamps.org', 
+    'https://bob.btc.calendar.opentimestamps.org',
+    'https://finney.calendar.eternitywall.com'
 ]
 
 // an empty list is not acceptable here
 const wcalendars = [
-    'http://test-calendar.aniasafe.it:80'
-    //'https://alice.btc.calendar.opentimestamps.org'
-    //'https://bob.btc.calendar.opentimestamps.org',
-    //'https://finney.calendar.eternitywall.com'
+    'http://test-calendar.aniasafe.it:80',
+    'https://alice.btc.calendar.opentimestamps.org',
+    'https://bob.btc.calendar.opentimestamps.org',
+    'https://finney.calendar.eternitywall.com'
 ]
 const whitelistedCalendars = new OpenTimestamps.Calendar.UrlWhitelist(wcalendars)
 
@@ -22,13 +22,15 @@ const blockexplorers = {
 	  explorers: [
     	{url: 'https://blockstream.info/api', type: 'blockstream'},
     	{url: 'https://blockexplorer.com/api', type: 'insight'}
-      ]
+      ],
+      timeout: 5
     },
     bitcoinTestnet: {
 	  explorers: [
 		{url: 'https://blockstream.info/testnet/api', type: 'blockstream'},
 		{url: 'https://testnet.blockexplorer.com/api', type: 'insight'}
-	  ]
+	  ],
+      timeout: 5
     }
 }
 
