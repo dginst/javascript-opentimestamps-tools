@@ -4,9 +4,8 @@ const OpenTimestamps = window.OpenTimestamps
 
 // an empty list would be equivalent to the default calendars
 const calendarsList = [
-    //'http://test-calendar.aniasafe.it:80',  // testnet
+    'http://test-calendar.aniasafe.it:80',  // testnet
     //'http://calendar.aniasafe.it:80',       // mainet
-    'http://calendar.irsa.it:80',           // testnet
     'https://alice.btc.calendar.opentimestamps.org', 
     'https://bob.btc.calendar.opentimestamps.org',
     'https://finney.calendar.eternitywall.com'
@@ -14,9 +13,8 @@ const calendarsList = [
 
 // an empty list is not acceptable here
 const wcalendars = [
-    //'http://test-calendar.aniasafe.it:80',  // testnet
+    'http://test-calendar.aniasafe.it:80',  // testnet
     //'http://calendar.aniasafe.it:80',       // mainet
-    'http://calendar.irsa.it:80',           // testnet
     'https://alice.btc.calendar.opentimestamps.org',
     'https://bob.btc.calendar.opentimestamps.org',
     'https://finney.calendar.eternitywall.com'
@@ -28,13 +26,15 @@ const blockexplorers = {
 	  explorers: [
     	{url: 'https://blockstream.info/api', type: 'blockstream'},
     	{url: 'https://blockexplorer.com/api', type: 'insight'}
-      ]
+      ],
+      timeout: 5
     },
     bitcoinTestnet: {
 	  explorers: [
 		{url: 'https://blockstream.info/testnet/api', type: 'blockstream'},
 		{url: 'https://testnet.blockexplorer.com/api', type: 'insight'}
-	  ]
+	  ],
+      timeout: 5
     }
 }
 
