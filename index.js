@@ -1,10 +1,11 @@
+/* OpenTimestamps functions */
+
 const OpenTimestamps = window.OpenTimestamps
 
 // an empty list would be equivalent to the default calendars
 const calendarsList = [
-    //'http://test-calendar.aniasafe.it:80',  // testnet
-    //'http://calendar.aniasafe.it:80',       // mainet
-    //'http://calendar.irsa.it:80',           // testnet
+    'http://test-calendar.aniasafe.it:80',  // testnet
+    'http://calendar.aniasafe.it:80',       // mainet
     'https://alice.btc.calendar.opentimestamps.org', 
     'https://bob.btc.calendar.opentimestamps.org',
     'https://finney.calendar.eternitywall.com'
@@ -12,9 +13,8 @@ const calendarsList = [
 
 // an empty list is not acceptable here
 const wcalendars = [
-    //'http://test-calendar.aniasafe.it:80',  // testnet
-    //'http://calendar.aniasafe.it:80',       // mainet
-    //'http://calendar.irsa.it:80',           // testnet
+    'http://test-calendar.aniasafe.it:80',  // testnet
+    'http://calendar.aniasafe.it:80',       // mainet
     'https://alice.btc.calendar.opentimestamps.org',
     'https://bob.btc.calendar.opentimestamps.org',
     'https://finney.calendar.eternitywall.com'
@@ -26,13 +26,15 @@ const blockexplorers = {
 	  explorers: [
     	{url: 'https://blockstream.info/api', type: 'blockstream'},
     	{url: 'https://blockexplorer.com/api', type: 'insight'}
-      ]
+      ],
+      timeout: 5
     },
     bitcoinTestnet: {
 	  explorers: [
 		{url: 'https://blockstream.info/testnet/api', type: 'blockstream'},
 		{url: 'https://testnet.blockexplorer.com/api', type: 'insight'}
-	  ]
+	  ],
+      timeout: 5
     }
 }
 
@@ -100,11 +102,13 @@ $("#btn-stamp").click(function(event) {
 
     const hashValue = $("#stamp-hashValue").val()
     const hashData = hexToBytes(hashValue)
-    const detachedOriginal = OpenTimestamps.DetachedTimestampFile.fromHash(op, hashData)
 
     const filename = $("#stamp-filename").val()
 
-    OpenTimestamps.stamp(detachedOriginal).then( () => {
+    const detachedOriginal = OpenTimestamps.DetachedTimestampFile.fromHash(op, hashData)
+	const options = { calendars: calendarsList }
+
+    OpenTimestamps.stamp(detachedOriginal, options).then( () => {
         const byteots = detachedOriginal.serializeToBytes()
         const hexots = bytesToHex(byteots)
         $("#stamp-output").val(hexots)
@@ -202,7 +206,8 @@ $("#btn-upgrade").click(function(event) {
     const filename = $("#upgrade-filename").val()
     $("#verify-filename").val(filename)
 
-    OpenTimestamps.upgrade(detachedStamped).then( (changed)=>{
+    const upgradeOptions = { whitelist: whitelistedCalendars }
+    OpenTimestamps.upgrade(detachedStamped, upgradeOptions).then( (changed)=>{
         const timestampBytes = detachedStamped.serializeToBytes()
         const hexots = bytesToHex(timestampBytes)
         if (changed === true) {
@@ -242,7 +247,8 @@ $("#btn-verify").click(function(event) {
     const filename = $("#verify-filename").val()
     var outputText = ""
 
-    OpenTimestamps.upgrade(detachedStamped).then( (changed)=>{
+    const upgradeOptions = { whitelist: whitelistedCalendars }
+    OpenTimestamps.upgrade(detachedStamped, upgradeOptions).then( (changed)=>{
         const timestampBytes = detachedStamped.serializeToBytes()
         hexots = bytesToHex(timestampBytes)
         if (changed === true) {
