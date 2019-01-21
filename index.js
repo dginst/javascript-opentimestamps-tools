@@ -26,13 +26,15 @@ const blockexplorers = {
 	  explorers: [
     	{url: 'https://blockstream.info/api', type: 'blockstream'},
     	{url: 'https://blockexplorer.com/api', type: 'insight'}
-      ]
+      ],
+      timeout: 5
     },
     bitcoinTestnet: {
 	  explorers: [
 		{url: 'https://blockstream.info/testnet/api', type: 'blockstream'},
 		{url: 'https://testnet.blockexplorer.com/api', type: 'insight'}
-	  ]
+	  ],
+      timeout: 5
     }
 }
 
